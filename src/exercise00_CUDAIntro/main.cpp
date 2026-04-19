@@ -248,13 +248,14 @@ void taskE()
     cudaMemcpy(d_rhs, rhs.data(), rhs.size() * sizeof(float), cudaMemcpyHostToDevice);
 
     launchMatrixMultiplicationKernel(d_lhs, d_rhs, d_output, lhsRows, lhsCols, rhsRows, rhsCols);
+    output.resize(outputRows * outputCols);
+
     cudaMemcpy(output.data(), d_output, output.size() * sizeof(float), cudaMemcpyDeviceToHost);
 
     cudaFree(d_lhs);
     cudaFree(d_rhs);
     cudaFree(d_output);
 
-    output.resize(outputRows * outputCols);
     // Expected output:
     // 36725, 24679, 25982,
     // 40059, 27133, 23270,
@@ -269,6 +270,8 @@ void taskE()
         std::cout << "\t";
         for (int c = 0; c < outputCols; ++c)
         {
+
+
             std::cout << " " << output[r * outputCols + c];
         }
         std::cout << std::endl;
