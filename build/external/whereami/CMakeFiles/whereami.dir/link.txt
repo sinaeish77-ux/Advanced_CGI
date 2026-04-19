@@ -1,0 +1,2 @@
+/usr/bin/ar qc /data1/shiva/cuda_practice/ACG/lib/libwhereami.a CMakeFiles/whereami.dir/src/whereami.c.o
+/usr/bin/ranlib /data1/shiva/cuda_practice/ACG/lib/libwhereami.a

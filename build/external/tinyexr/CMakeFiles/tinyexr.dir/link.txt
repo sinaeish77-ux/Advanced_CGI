@@ -1,0 +1,2 @@
+/usr/bin/ar qc /data1/shiva/cuda_practice/ACG/lib/libtinyexr.a CMakeFiles/tinyexr.dir/tinyexr.cpp.o
+/usr/bin/ranlib /data1/shiva/cuda_practice/ACG/lib/libtinyexr.a

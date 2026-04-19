@@ -1,0 +1,1 @@
+/usr/bin/g++-10 -fPIC -shared -Wl,-soname,libpugixml.so.1 -o /data1/shiva/cuda_practice/lib/libpugixml.so.1.11 "CMakeFiles/pugixml-shared.dir/src/pugixml.cpp.o" 
