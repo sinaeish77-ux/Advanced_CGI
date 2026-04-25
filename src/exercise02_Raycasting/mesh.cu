@@ -147,6 +147,24 @@ extern "C" __global__ void __anyhit__mesh()
      * - Cutout the holes of a level 3 Menger sponge given the UV coordinates in [0, 1]^2 on the face of a cube.
      * - Discard intersections via `void optixIgnoreIntersection()`.
      */
+    glm::vec2 current_uv = uv;
 
+    for (int level = 0; level < 3; ++level)
+    {
+        glm::vec2 grid_position = current_uv * 3.0f;
+    
+        int cell_x = static_cast<int>(glm::floor(grid_position.x));
+        int cell_y = static_cast<int>(glm::floor(grid_position.y));
+    
+        bool is_center_cell = (cell_x == 1 && cell_y == 1);
+
+        if (is_center_cell)
+        {
+            optixIgnoreIntersection();
+            return;
+        }
+        
+        current_uv = glm::fract(grid_position);
+        }      
     //
 }
