@@ -1,2 +1,0 @@
-/usr/bin/ar qc /data1/shiva/cuda_practice/ACG/lib/libcuda_kernels.a CMakeFiles/cuda_kernels.dir/kernels.cu.o
-/usr/bin/ranlib /data1/shiva/cuda_practice/ACG/lib/libcuda_kernels.a

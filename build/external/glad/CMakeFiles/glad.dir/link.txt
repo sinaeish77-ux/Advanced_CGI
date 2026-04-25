@@ -1,1 +1,0 @@
-/usr/bin/gcc-10 -fPIC -shared -Wl,-soname,libglad.so -o /data1/shiva/cuda_practice/ACG/lib/libglad.so CMakeFiles/glad.dir/glad/glad.c.o  /usr/lib/x86_64-linux-gnu/libOpenGL.so /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libGLU.so 

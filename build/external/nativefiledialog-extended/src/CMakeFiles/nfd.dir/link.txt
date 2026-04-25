@@ -1,2 +1,0 @@
-/usr/bin/ar qc /data1/shiva/cuda_practice/ACG/lib/libnfd.a CMakeFiles/nfd.dir/nfd_portal.cpp.o
-/usr/bin/ranlib /data1/shiva/cuda_practice/ACG/lib/libnfd.a

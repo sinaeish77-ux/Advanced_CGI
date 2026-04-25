@@ -1,2 +1,0 @@
-/usr/bin/ar qc /data1/shiva/cuda_practice/ACG/lib/libstb.a CMakeFiles/stb.dir/stb_image.cpp.o CMakeFiles/stb.dir/stb_image_write.cpp.o
-/usr/bin/ranlib /data1/shiva/cuda_practice/ACG/lib/libstb.a
