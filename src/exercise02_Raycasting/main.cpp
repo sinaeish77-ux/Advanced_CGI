@@ -34,12 +34,39 @@ void createSceneGeometry(opg::Scene *scene)
      */
 
     /// Add an ellipsoid with radii (0.25, 0.75, 0.25) rotated by pi/4 around the z axis translated to (0, 1, 0)
-    {
+    {   
         //
+        SphereShape *sphere = scene->createSceneComponent<SphereShape>(opg::Properties());
+
+        glm::mat4 to_world = glm::mat4(1);
+        to_world = glm::translate(to_world, glm::vec3(0, 1, 0));
+        to_world = glm::rotate(to_world, M_PIf / 4.0f, glm::vec3(0, 0, 1));
+        to_world = glm::scale(to_world, glm::vec3(0.25f, 0.75f, 0.25f));
+        
+        opg::Properties props;
+        props.setComponent("shape", sphere);
+        props.setMatrix("to_world", to_world);
+        auto ellipsoidInstance = scene->createSceneComponent<opg::ShapeInstance>(props);
     }
 
     /// Add a cylinder at (0, -1, 0) with an axis-vector from center to tip of (0.6, 0.6, 0.6) and radius 0.3
-    {
+    {   
+        CylinderShape *cylinder = scene->createSceneComponent<CylinderShape>(opg::Properties());
+
+        const glm::vec3 cylinder_axis = glm::vec3(0.6f, 0.6f, 0.6f);
+        const glm::vec3 default_axis = glm::vec3(0, 0, 1);
+        const glm::vec3 rotation_axis = glm::normalize(glm::cross(default_axis, glm::normalize(cylinder_axis)));
+        const float rotation_angle = glm::acos(glm::dot(default_axis, glm::normalize(cylinder_axis)));
+
+        glm::mat4 to_world = glm::mat4(1);
+        to_world = glm::translate(to_world, glm::vec3(0, -1, 0));
+        to_world = glm::rotate(to_world, rotation_angle, rotation_axis);
+        to_world = glm::scale(to_world, glm::vec3(0.3f, 0.3f, glm::length(cylinder_axis)));
+
+        opg::Properties props;
+        props.setComponent("shape", cylinder);
+        props.setMatrix("to_world", to_world);
+        auto cylinderInstance = scene->createSceneComponent<opg::ShapeInstance>(props);
         //
     }
 
