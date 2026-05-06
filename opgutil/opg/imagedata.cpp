@@ -125,6 +125,7 @@ void writeImagePNG(const char *filename, const ImageData &image)
 
     // stride gives the size of an image row in bytes
     int stride = channelCount * image.width;
+
     if (stbi_write_png(filename, image.width, image.height, channelCount, image.data.data(), stride) == 0)
     {
         throw std::runtime_error("Failed to write png image!");

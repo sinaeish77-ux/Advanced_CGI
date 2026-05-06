@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <string>
-#include <cuda.h>
+
 #include "opg/opgapi.h"
 
 
