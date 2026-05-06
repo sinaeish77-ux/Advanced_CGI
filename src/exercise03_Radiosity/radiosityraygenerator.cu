@@ -145,7 +145,7 @@ extern "C" __global__ void __raygen__generateRadiosity()
         return;
 
     // ── Visibility check
-    bool visible = traceOcclusion(
+    bool occluded = traceOcclusion(
             params.traversable_handle,
             ci + ni * params.scene_epsilon,
             dir,
@@ -153,7 +153,7 @@ extern "C" __global__ void __raygen__generateRadiosity()
             r - (params.scene_epsilon),
             params.occlusion_trace_params);
 
-    if (!visible)
+    if (occluded)
         return;
 
     // ── Form factor  F_ij = (A_j · cos_i · cos_j) / (π · r²) ─────────────
