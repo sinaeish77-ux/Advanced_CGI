@@ -59,6 +59,14 @@ extern "C" __device__ BSDFSamplingResult __direct_callable__opaque_sampleBSDF(co
      *   - Set the sampling pdf to 1 to indicate a valid result (The sampling pdf is used later for stochastic sampling methods)
      */
 
+    glm::vec3 outgoing_ray_dir = glm::reflect(si.incoming_ray_dir, si.normal);
+ 
+    float VdotN = glm::abs(glm::dot(-si.incoming_ray_dir, si.normal));
+    glm::vec3 F = fresnel_schlick(sbt_data->specular_F0, VdotN);
+
+    result.outgoing_ray_dir = outgoing_ray_dir;
+    result.bsdf_weight = F;
+    result.sampling_pdf = 1;
     //
 
     return result;
@@ -93,6 +101,44 @@ extern "C" __device__ BSDFSamplingResult __direct_callable__refractive_sampleBSD
      *   Hint: You can use Schlick's approximation for the Fresnel term to compute the amount of light reflected or transmitted.
      */
 
+    float VdotN = glm::dot(-si.incoming_ray_dir, si.normal);
+    bool entering = VdotN > 0.0f;
+
+    glm::vec3 normal = entering ? si.normal : -si.normal;
+    
+    float eta_i = entering ? 1.0f : sbt_data->index_of_refraction;
+    float eta_t = entering ? sbt_data->index_of_refraction : 1.0f;
+    float eta = eta_i / eta_t;
+
+    glm::vec3 refracted_dir = glm::refract(si.incoming_ray_dir, normal, eta);
+
+    bool total_internal_reflection = (refracted_dir == glm::vec3(0.0f));
+
+    float F0 = (eta_i - eta_t) / (eta_i + eta_t);
+    F0 = F0 * F0;
+
+    float cos_theta = glm::abs(glm::dot(-si.incoming_ray_dir, normal));
+    float F = fresnel_schlick(F0, cos_theta);
+
+    if (total_internal_reflection)
+        F = 1.0f;
+
+    if (component_flags == +BSDFComponentFlag::IdealReflection)
+    {
+        result.outgoing_ray_dir = glm::reflect(si.incoming_ray_dir, normal);
+        result.bsdf_weight = glm::vec3(F);
+        result.sampling_pdf = 1;
+    }
+
+    if (component_flags == +BSDFComponentFlag::IdealTransmission)
+    {
+        if (total_internal_reflection)
+            return result;
+
+        result.outgoing_ray_dir = refracted_dir;
+        result.bsdf_weight = glm::vec3(1.0f - F);
+        result.sampling_pdf = 1;
+    }
     //
 
     return result;
